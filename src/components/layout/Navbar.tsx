@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
-  { label: 'PROJECTS', href: '/projects' },
-  { label: 'ABOUT', href: '/about' },
-  { label: 'CONTACT', href: '/contact' },
+  { label: 'PROJECTS', href: '/site/projects' },
+  { label: 'ABOUT', href: '/site/about' },
+  { label: 'CONTACT', href: '/site/contact' },
 ]
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between px-6 md:px-10 h-14">
           {/* Logo */}
-          <Link href="/" className="font-display font-bold text-sm tracking-[0.15em] text-charcoal hover:text-crimson transition-colors">
+          <Link href="/site" className="font-display font-bold text-sm tracking-[0.15em] text-charcoal hover:text-crimson transition-colors">
             OMDASTUDIOS
           </Link>
 
@@ -65,7 +65,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="flex items-center gap-4">
             <Link
-              href="/contact"
+              href="/site/contact"
               className="hidden md:flex items-center bg-crimson text-cream text-label px-5 py-2.5 hover:bg-crimson-800 transition-colors"
             >
               INQUIRY
@@ -129,7 +129,7 @@ export default function Navbar() {
                 transition={{ delay: 0.5 }}
               >
                 <Link
-                  href="/contact"
+                  href="/site/contact"
                   className="inline-block bg-crimson text-cream text-label px-8 py-4 mt-4"
                 >
                   INQUIRY

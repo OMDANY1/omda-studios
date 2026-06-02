@@ -53,7 +53,7 @@ export default async function ProjectsPage() {
           {projects.map((project, i) => (
             <Reveal key={project.id} delay={i * 0.06}>
               <Link
-                href={`/projects/${project.slug}`}
+                href={`/site/projects/${project.slug}`}
                 className="group block border-b border-r-0 md:border-r border-charcoal/10 p-0"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-zinc-200">

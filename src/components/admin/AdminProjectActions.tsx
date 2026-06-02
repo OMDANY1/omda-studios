@@ -32,7 +32,7 @@ export default function AdminProjectActions({ projectId, slug }: Props) {
   return (
     <div className="flex items-center gap-2">
       <Link
-        href={`/projects/${slug}`}
+        href={`/site/projects/${slug}`}
         target="_blank"
         className="p-1.5 text-gray-400 hover:text-charcoal transition-colors"
         title="View"

@@ -11,7 +11,12 @@ interface PageProps {
 }
 
 async function getProject(slug: string) {
-  return prisma.project.findUnique({ where: { slug, published: true } })
+  return prisma.project.findFirst({
+    where: {
+      slug,
+      published: true,
+    },
+  })
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -173,7 +178,7 @@ export default async function ProjectPage({ params }: PageProps) {
       {/* Back to projects */}
       <div className="bg-cream px-6 md:px-10 py-8">
         <Link
-          href="/projects"
+          href="/site/projects"
           className="text-label text-charcoal hover:text-crimson transition-colors flex items-center gap-2"
         >
           ← BACK TO PROJECTS
