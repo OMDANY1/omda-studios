@@ -38,11 +38,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom cursor */
-*, *::before, *::after {
+/* Custom cursor only on site pages */
+.site-cursor *,
+.site-cursor *::before,
+.site-cursor *::after {
   cursor: none !important;
 }
-
 .cursor {
   position: fixed;
   top: 0;

@@ -10,13 +10,11 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   const cursorRef = useRef<HTMLDivElement>(null)
   const followerRef = useRef<HTMLDivElement>(null)
 
-  // Detect touch devices
   const isTouchDevice =
     typeof window !== 'undefined' &&
     ('ontouchstart' in window || navigator.maxTouchPoints > 0)
 
   useEffect(() => {
-    // Disable custom cursor on mobile/tablet
     if (isTouchDevice) return
 
     const cursor = cursorRef.current
@@ -84,10 +82,9 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   }, [isTouchDevice])
 
   return (
-    <>
+    <div className="site-cursor">
       <LoadingScreen />
 
-      {/* Hide custom cursor on touch devices */}
       {!isTouchDevice && (
         <>
           <div className="cursor" ref={cursorRef} />
@@ -102,6 +99,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       </PageTransition>
 
       <Footer />
-    </>
+    </div>
   )
 }
