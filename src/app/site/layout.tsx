@@ -10,17 +10,29 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   const cursorRef = useRef<HTMLDivElement>(null)
   const followerRef = useRef<HTMLDivElement>(null)
 
+  // Detect touch devices
+  const isTouchDevice =
+    typeof window !== 'undefined' &&
+    ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+
   useEffect(() => {
+    // Disable custom cursor on mobile/tablet
+    if (isTouchDevice) return
+
     const cursor = cursorRef.current
     const follower = followerRef.current
+
     if (!cursor || !follower) return
 
-    let mouseX = 0, mouseY = 0
-    let followerX = 0, followerY = 0
+    let mouseX = 0
+    let mouseY = 0
+    let followerX = 0
+    let followerY = 0
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX
       mouseY = e.clientY
+
       cursor.style.left = mouseX + 'px'
       cursor.style.top = mouseY + 'px'
     }
@@ -28,8 +40,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     const animate = () => {
       followerX += (mouseX - followerX) * 0.1
       followerY += (mouseY - followerY) * 0.1
+
       follower.style.left = followerX + 'px'
       follower.style.top = followerY + 'px'
+
       requestAnimationFrame(animate)
     }
 
@@ -44,6 +58,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     }
 
     document.addEventListener('mousemove', onMouseMove)
+
     animate()
 
     const addLinkListeners = () => {
@@ -54,24 +69,38 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     }
 
     addLinkListeners()
+
     const observer = new MutationObserver(addLinkListeners)
-    observer.observe(document.body, { childList: true, subtree: true })
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    })
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)
       observer.disconnect()
     }
-  }, [])
+  }, [isTouchDevice])
 
   return (
     <>
       <LoadingScreen />
-      <div className="cursor" ref={cursorRef} />
-      <div className="cursor-follower" ref={followerRef} />
+
+      {/* Hide custom cursor on touch devices */}
+      {!isTouchDevice && (
+        <>
+          <div className="cursor" ref={cursorRef} />
+          <div className="cursor-follower" ref={followerRef} />
+        </>
+      )}
+
       <Navbar />
+
       <PageTransition>
         <main>{children}</main>
       </PageTransition>
+
       <Footer />
     </>
   )
