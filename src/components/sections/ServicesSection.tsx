@@ -28,7 +28,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-sm text-mid-gray leading-relaxed max-w-sm">
-              We reject the templated web. Our philosophy is rooted in the physical world —
+              We reject the templated web. Our philosophy is rooted in the physical world -
               typography that breathes and layouts that demand attention.
             </p>
           </Reveal>
@@ -58,7 +58,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                     hovered === service.id ? 'translate-x-1' : ''
                   }`}
                 >
-                  →
+                  +
                 </span>
               </div>
             </Reveal>

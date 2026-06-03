@@ -11,6 +11,9 @@ export default withAuth(
     return NextResponse.next()
   },
   {
+    pages: {
+      signIn: '/admin/login',
+    },
     callbacks: {
       authorized: ({ req, token }) => {
         // Protect /admin routes
@@ -21,6 +24,7 @@ export default withAuth(
         return true
       },
     },
+    secret: process.env.NEXTAUTH_SECRET,
   }
 )
 

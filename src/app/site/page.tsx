@@ -7,8 +7,11 @@ import CtaSection from '@/components/sections/CtaSection'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'OMDA Studios — Art Direction & Digital Craft',
+  title: 'OMDA Studios - Art Direction & Digital Craft',
 }
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 async function getData() {
   const [projects, services] = await Promise.all([

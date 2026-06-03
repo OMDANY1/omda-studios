@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
 
 const messageSchema = z.object({
@@ -25,7 +27,10 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
+  const session = await getServerSession(authOptions)
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
     const messages = await prisma.message.findMany({
       orderBy: { createdAt: 'desc' },

@@ -5,8 +5,6 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   FolderOpen,
-  Image,
-  Tag,
   Briefcase,
   Users,
   Star,
@@ -15,12 +13,18 @@ import {
   HardDrive,
   Settings,
   ExternalLink,
+  type LucideIcon,
 } from 'lucide-react'
 
-const navItems = [
+export interface AdminNavItem {
+  label: string
+  href: string
+  icon: LucideIcon
+}
+
+export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { label: 'Projects', href: '/admin/projects', icon: FolderOpen },
-  { label: 'Portfolio', href: '/admin/portfolio', icon: Image },
   { label: 'Services', href: '/admin/services', icon: Briefcase },
   { label: 'Team', href: '/admin/team', icon: Users },
   { label: 'Testimonials', href: '/admin/testimonials', icon: Star },
@@ -34,7 +38,7 @@ export default function AdminSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-56 bg-charcoal flex flex-col h-full flex-shrink-0">
+    <aside className="flex h-full w-56 flex-shrink-0 flex-col bg-charcoal">
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/10">
         <h1 className="font-display font-black text-cream text-xl tracking-tight">OMDA</h1>
@@ -43,7 +47,7 @@ export default function AdminSidebar() {
 
       {/* Nav */}
       <nav className="flex-1 py-4 overflow-y-auto">
-        {navItems.map((item) => {
+        {adminNavItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           return (

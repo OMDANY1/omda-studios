@@ -23,7 +23,7 @@ export default async function AdminMessagesPage() {
         <div>
           <h1 className="text-2xl font-bold text-charcoal font-display">Messages</h1>
           <p className="text-sm text-gray-500 mt-1">
-            {messages.length} total · {unread} unread
+            {messages.length} total / {unread} unread
           </p>
         </div>
       </div>

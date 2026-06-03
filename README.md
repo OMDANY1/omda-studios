@@ -1,4 +1,4 @@
-# OMDA Studios — Complete Setup & Deployment Guide
+# OMDA Studios - Complete Setup & Deployment Guide
 
 ## 📁 Folder Structure
 
@@ -68,7 +68,7 @@ omda-studios/
 - MongoDB database (MongoDB Atlas recommended)
 - npm or pnpm
 
-### Step 1 — Clone & Install
+### Step 1 - Clone & Install
 
 ```bash
 # Clone or download this project
@@ -78,7 +78,7 @@ cd omda-studios
 npm install
 ```
 
-### Step 2 — Environment Variables
+### Step 2 - Environment Variables
 
 ```bash
 cp .env.example .env.local
@@ -100,7 +100,7 @@ CLOUDINARY_FOLDER="omda-studios"
 openssl rand -base64 32
 ```
 
-### Step 3 — Database Setup
+### Step 3 - Database Setup
 
 ```bash
 # Push schema to database
@@ -110,7 +110,7 @@ npm run db:push
 npm run db:seed
 ```
 
-### Step 4 — Run Development Server
+### Step 4 - Run Development Server
 
 ```bash
 npm run dev
@@ -148,7 +148,7 @@ DATABASE_URL="mongodb://127.0.0.1:27017/omdastudios"
 
 ## ☁️ Deployment on Vercel
 
-### Step 1 — Push to GitHub
+### Step 1 - Push to GitHub
 ```bash
 git init
 git add .
@@ -157,13 +157,13 @@ git remote add origin https://github.com/yourusername/omda-studios.git
 git push -u origin main
 ```
 
-### Step 2 — Import to Vercel
-1. Go to [vercel.com](https://vercel.com) → New Project
+### Step 2 - Import to Vercel
+1. Go to [vercel.com](https://vercel.com) -> New Project
 2. Import your GitHub repository
 3. Framework: **Next.js** (auto-detected)
 
-### Step 3 — Environment Variables on Vercel
-In Vercel project → Settings → Environment Variables, add:
+### Step 3 - Environment Variables on Vercel
+In Vercel project -> Settings -> Environment Variables, add:
 
 | Key | Value |
 |-----|-------|
@@ -175,10 +175,10 @@ In Vercel project → Settings → Environment Variables, add:
 | `CLOUDINARY_API_SECRET` | Your Cloudinary API secret |
 | `CLOUDINARY_FOLDER` | Upload folder, e.g. `omda-studios` |
 
-### Step 4 — Deploy
-Click **Deploy** — Vercel handles the rest.
+### Step 4 - Deploy
+Click **Deploy** - Vercel handles the rest.
 
-### Step 5 — Run Migrations on Production
+### Step 5 - Run Migrations on Production
 After first deploy, run in Vercel console or locally with production env:
 ```bash
 DATABASE_URL="your-mongodb-url" npm run db:push
@@ -190,7 +190,7 @@ DATABASE_URL="your-mongodb-url" npm run db:seed
 ## 🌐 Custom Domain Connection
 
 ### On Vercel:
-1. Go to Project → Settings → Domains
+1. Go to Project -> Settings -> Domains
 2. Add your domain: `omdastudios.com`
 3. Vercel provides DNS records
 
@@ -233,14 +233,14 @@ charcoal: '#1a1a1a',  // Text
 
 ### Fonts (globals.css)
 Currently using:
-- **Playfair Display** — Display headings (editorial weight)
-- **DM Sans** — Body text (clean, modern)
-- **DM Mono** — Labels and monospace
+- **Playfair Display** - Display headings (editorial weight)
+- **DM Sans** - Body text (clean, modern)
+- **DM Mono** - Labels and monospace
 
 To change fonts, update the Google Fonts import in `globals.css` and `--font-display`/`--font-body` CSS variables.
 
 ### Ticker Text
-Edit `src/components/sections/TickerSection.tsx` — change the `items` array.
+Edit `src/components/sections/TickerSection.tsx` - change the `items` array.
 
 ### Logo
 Update the text `OMDASTUDIOS` in `Navbar.tsx` and `Footer.tsx`.
@@ -352,4 +352,4 @@ Check for TypeScript errors and fix them before deploying.
 
 ---
 
-*Built for OMDA Studios — premium creative agency website with full CMS.*
+*Built for OMDA Studios - premium creative agency website with full CMS.*

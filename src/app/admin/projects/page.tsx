@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { Plus, Pencil, Trash2, Eye, EyeOff } from 'lucide-react'
+import { Plus, Eye, EyeOff } from 'lucide-react'
 import AdminProjectActions from '@/components/admin/AdminProjectActions'
 
 async function getProjects() {
@@ -53,7 +53,7 @@ export default async function AdminProjectsPage() {
                   {project.featured ? (
                     <span className="text-xs bg-crimson/10 text-crimson px-2 py-1 rounded">Featured</span>
                   ) : (
-                    <span className="text-xs text-gray-300">—</span>
+                    <span className="text-xs text-gray-300">-</span>
                   )}
                 </td>
                 <td className="px-6 py-4">
@@ -79,7 +79,7 @@ export default async function AdminProjectsPage() {
           <div className="text-center py-16">
             <p className="text-gray-400 text-sm">No projects yet.</p>
             <Link href="/admin/projects/new" className="text-crimson text-sm mt-2 inline-block hover:underline">
-              Create your first project →
+              Create your first project
             </Link>
           </div>
         )}

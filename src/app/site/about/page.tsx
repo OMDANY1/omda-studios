@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'About',
 }
 
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 async function getAbout() {
   return prisma.about.findFirst()
 }
@@ -47,7 +50,7 @@ export default async function AboutPage() {
               </div>
               <div className="absolute bottom-4 right-4 bg-cream px-4 py-2">
                 <p className="text-label text-charcoal">
-                  EST. {about?.estYear || '2018'} — {about?.location?.split('/')[0]?.trim() || 'LONDON'}
+                  EST. {about?.estYear || '2018'} - {about?.location?.split('/')[0]?.trim() || 'LONDON'}
                 </p>
               </div>
             </div>
@@ -106,7 +109,7 @@ export default async function AboutPage() {
             <br />
             IMPOSSIBLE.
           </h2>
-          <p className="text-label text-cream/50 mt-6">SCROLL TO CONTACT ↓</p>
+          <p className="text-label text-cream/50 mt-6">SCROLL TO CONTACT </p>
         </div>
       </section>
 
@@ -180,7 +183,7 @@ function ContactForm() {
         type="submit"
         className="flex items-center gap-3 bg-crimson text-cream text-label px-8 py-4 hover:bg-crimson-800 transition-colors w-full justify-center"
       >
-        SEND MESSAGE →
+        SEND MESSAGE
       </button>
     </form>
   )

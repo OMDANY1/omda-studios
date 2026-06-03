@@ -51,7 +51,7 @@ export default async function AdminBlogPage() {
                     <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
                       {post.category}
                     </span>
-                  ) : <span className="text-gray-300 text-xs">—</span>}
+                  ) : <span className="text-gray-300 text-xs">-</span>}
                 </td>
                 <td className="px-6 py-4 hidden lg:table-cell">
                   <p className="text-xs text-gray-400">{formatDate(post.createdAt)}</p>
@@ -81,7 +81,7 @@ export default async function AdminBlogPage() {
           <div className="text-center py-16">
             <p className="text-gray-400 text-sm">No posts yet.</p>
             <Link href="/admin/blog/new" className="text-crimson text-sm mt-2 inline-block hover:underline">
-              Write your first post →
+              Write your first post
             </Link>
           </div>
         )}

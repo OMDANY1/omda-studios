@@ -27,7 +27,7 @@ export default function HeroSection() {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
           >
             <div className="w-full h-full bg-charcoal relative">
-              {/* Placeholder — replace with actual image */}
+              {/* Placeholder - replace with actual image */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950" />
               </div>
@@ -44,7 +44,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <p className="text-label text-mid-gray mb-3">ART DIRECTION · DIGITAL CRAFT</p>
+          <p className="text-label text-mid-gray mb-3">ART DIRECTION / DIGITAL CRAFT</p>
           <p className="text-sm text-mid-gray leading-relaxed font-body">
             A curation of visual narratives where editorial precision meets raw brutalist expression.
             We build digital monographs for the bold.

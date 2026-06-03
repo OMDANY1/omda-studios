@@ -40,7 +40,7 @@ export default async function AdminTestimonialsPage() {
                   <p className="font-bold text-charcoal text-sm">{t.name}</p>
                   {(t.role || t.company) && (
                     <p className="text-xs text-gray-400">
-                      {[t.role, t.company].filter(Boolean).join(' · ')}
+                      {[t.role, t.company].filter(Boolean).join(' / ')}
                     </p>
                   )}
                 </div>

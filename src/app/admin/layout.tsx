@@ -1,12 +1,16 @@
-export default function AdminLayout({
+import { getServerSession } from 'next-auth'
+import AdminShell from '@/components/admin/AdminShell'
+import { authOptions } from '@/lib/auth'
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <div style={{ padding: 40 }}>
-      <h1>ADMIN LAYOUT WORKING</h1>
-      {children}
-    </div>
-  )
+  const session = await getServerSession(authOptions)
+
+  return <AdminShell user={session?.user}>{children}</AdminShell>
 }

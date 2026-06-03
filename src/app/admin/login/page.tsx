@@ -19,66 +19,67 @@ export default function AdminLoginPage() {
     const password = (form.elements.namedItem('password') as HTMLInputElement).value
 
     const result = await signIn('credentials', {
-      email,
+      email: email.trim().toLowerCase(),
       password,
       redirect: false,
+      callbackUrl: '/admin/dashboard',
     })
 
-    if (result?.error) {
+    if (result?.error || !result?.ok) {
       setError('Invalid email or password')
       setLoading(false)
-    } else {
-      router.push('/admin/dashboard')
+      return
     }
+
+    router.replace('/admin/dashboard')
+    router.refresh()
   }
 
   return (
-    <div className="min-h-screen bg-charcoal flex items-center justify-center px-4">
+    <div className="flex min-h-screen items-center justify-center bg-charcoal px-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-12">
-          <h1 className="font-display font-black text-cream text-4xl tracking-tight">OMDA</h1>
-          <p className="text-light-gray text-xs tracking-widest mt-1">STUDIOS ADMIN</p>
+        <div className="mb-12 text-center">
+          <h1 className="font-display text-4xl font-black tracking-tight text-cream">OMDA</h1>
+          <p className="mt-1 text-xs tracking-widest text-light-gray">STUDIOS ADMIN</p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-xs tracking-widest text-light-gray mb-2">EMAIL</label>
+            <label className="mb-2 block text-xs tracking-widest text-light-gray">EMAIL</label>
             <input
               name="email"
               type="email"
               required
-              className="w-full bg-transparent border-b border-white/20 py-3 text-cream text-sm focus:outline-none focus:border-crimson transition-colors placeholder:text-white/20"
+              autoComplete="email"
+              className="w-full border-b border-white/20 bg-transparent py-3 text-sm text-cream transition-colors placeholder:text-white/20 focus:border-crimson focus:outline-none"
               placeholder="admin@omdastudios.com"
             />
           </div>
           <div>
-            <label className="block text-xs tracking-widest text-light-gray mb-2">PASSWORD</label>
+            <label className="mb-2 block text-xs tracking-widest text-light-gray">PASSWORD</label>
             <input
               name="password"
               type="password"
               required
-              className="w-full bg-transparent border-b border-white/20 py-3 text-cream text-sm focus:outline-none focus:border-crimson transition-colors placeholder:text-white/20"
-              placeholder="••••••••"
+              autoComplete="current-password"
+              className="w-full border-b border-white/20 bg-transparent py-3 text-sm text-cream transition-colors placeholder:text-white/20 focus:border-crimson focus:outline-none"
+              placeholder="Enter password"
             />
           </div>
 
-          {error && (
-            <p className="text-crimson-500 text-xs tracking-wider">{error}</p>
-          )}
+          {error && <p className="text-xs tracking-wider text-crimson-500">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-crimson text-cream py-4 text-xs tracking-widest hover:bg-crimson-600 transition-colors disabled:opacity-60 mt-4"
+            className="mt-4 w-full bg-crimson py-4 text-xs tracking-widest text-cream transition-colors hover:bg-crimson-600 disabled:opacity-60"
           >
             {loading ? 'AUTHENTICATING...' : 'ENTER STUDIO'}
           </button>
         </form>
 
-        <p className="text-center text-white/20 text-xs mt-8">
-          ©{new Date().getFullYear()} OMDASTUDIOS
+        <p className="mt-8 text-center text-xs text-white/20">
+          (c) {new Date().getFullYear()} OMDASTUDIOS
         </p>
       </div>
     </div>

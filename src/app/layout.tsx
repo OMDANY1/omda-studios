@@ -3,7 +3,7 @@ import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'OMDA Studios — Art Direction & Digital Craft',
+    default: 'OMDA Studios - Art Direction & Digital Craft',
     template: '%s | OMDA Studios',
   },
   description:
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://omdastudios.com',
     siteName: 'OMDA Studios',
-    title: 'OMDA Studios — Art Direction & Digital Craft',
+    title: 'OMDA Studios - Art Direction & Digital Craft',
     description:
       'A curation of visual narratives where editorial precision meets raw brutalist expression.',
   },

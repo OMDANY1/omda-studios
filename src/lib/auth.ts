@@ -1,7 +1,14 @@
-import { NextAuthOptions } from 'next-auth'
+import type { NextAuthOptions } from 'next-auth'
+import type { Role } from '@prisma/client'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+
+const authSecret = process.env.NEXTAUTH_SECRET
+
+if (process.env.NODE_ENV === 'production' && !authSecret) {
+  throw new Error('NEXTAUTH_SECRET must be set in Vercel Production.')
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,21 +20,21 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials')
+          return null
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials.email.trim().toLowerCase() },
         })
 
         if (!user || !user.password) {
-          throw new Error('User not found')
+          return null
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.password)
 
         if (!isValid) {
-          throw new Error('Invalid password')
+          return null
         }
 
         return {
@@ -42,17 +49,30 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role
         token.id = user.id
+        token.role = user.role as Role
       }
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
-        (session.user as any).role = token.role
-        ;(session.user as any).id = token.id
+      if (session.user && token.id && token.role) {
+        // Keep the custom credentials user data available to admin pages and API routes.
+        session.user.id = token.id
+        session.user.role = token.role
       }
       return session
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) return `${baseUrl}${url}`
+
+      try {
+        const parsedUrl = new URL(url)
+        if (parsedUrl.origin === baseUrl) return url
+      } catch {
+        return `${baseUrl}/admin/dashboard`
+      }
+
+      return `${baseUrl}/admin/dashboard`
     },
   },
   pages: {
@@ -63,5 +83,5 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: authSecret,
 }

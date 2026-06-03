@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Projects',
 }
 
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 async function getProjects() {
   return prisma.project.findMany({
     where: { published: true },

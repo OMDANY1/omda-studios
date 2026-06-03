@@ -31,7 +31,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-label text-cream/30">
-          ©{currentYear} OMDASTUDIOS. ALL RIGHTS RESERVED.
+          (c){currentYear} OMDASTUDIOS. ALL RIGHTS RESERVED.
         </p>
       </div>
     </footer>

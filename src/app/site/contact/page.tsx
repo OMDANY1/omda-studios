@@ -59,7 +59,7 @@ export default function ContactPage() {
               </div>
               <div className="pt-8">
                 <p className="text-sm text-mid-gray leading-relaxed max-w-sm">
-                  Whether you have a new project, a question, or just want to say hello — we&apos;d
+                  Whether you have a new project, a question, or just want to say hello - we&apos;d
                   love to hear from you.
                 </p>
               </div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                 disabled={loading}
                 className="flex items-center justify-center gap-3 bg-crimson text-cream text-label px-8 py-4 w-full hover:bg-crimson-800 transition-colors disabled:opacity-60"
               >
-                {loading ? 'SENDING...' : 'SEND MESSAGE →'}
+                {loading ? 'SENDING...' : 'SEND MESSAGE'}
               </button>
             </form>
           </Reveal>

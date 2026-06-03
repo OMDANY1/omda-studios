@@ -10,6 +10,9 @@ interface PageProps {
   params: { slug: string }
 }
 
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 async function getProject(slug: string) {
   return prisma.project.findFirst({
     where: {
@@ -23,11 +26,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const project = await getProject(params.slug)
   if (!project) return {}
   return { title: project.title, description: project.description }
-}
-
-export async function generateStaticParams() {
-  const projects = await prisma.project.findMany({ select: { slug: true } })
-  return projects.map((p) => ({ slug: p.slug }))
 }
 
 export default async function ProjectPage({ params }: PageProps) {
@@ -129,7 +127,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Art Direction — red block */}
+      {/* Art Direction - red block */}
       <section className="bg-crimson py-20 px-6 md:px-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-10">
           <Reveal>
@@ -171,7 +169,7 @@ export default async function ProjectPage({ params }: PageProps) {
           className="font-display font-black text-charcoal/10 whitespace-nowrap"
           style={{ fontSize: 'clamp(4rem, 12vw, 10rem)' }}
         >
-          RADICAL · CURATION · {project.title.toUpperCase()} · RADICAL · CURATION ·
+          RADICAL / CURATION / {project.title.toUpperCase()} / RADICAL / CURATION /
         </p>
       </div>
 
@@ -181,7 +179,7 @@ export default async function ProjectPage({ params }: PageProps) {
           href="/site/projects"
           className="text-label text-charcoal hover:text-crimson transition-colors flex items-center gap-2"
         >
-          ← BACK TO PROJECTS
+          BACK TO PROJECTS
         </Link>
       </div>
 

@@ -26,9 +26,9 @@ async function main() {
       headline: 'THE CURATOR',
       tagline: 'Art Director & Digital Architect',
       description:
-        'OMDASTUDIOS is a digital sanctuary where radical minimalism meets visceral impact. We believe in the tension of the "creamy red" — a palette that breathes life into clinical precision.',
+        'OMDASTUDIOS is a digital sanctuary where radical minimalism meets visceral impact. We believe in the tension of the "creamy red" - a palette that breathes life into clinical precision.',
       philosophy:
-        'We reject the templated web. Our philosophy is rooted in the physical world — typography that breathes and layouts that demand attention.',
+        'We reject the templated web. Our philosophy is rooted in the physical world - typography that breathes and layouts that demand attention.',
       approach1:
         'Every pixel serves a purpose. We reject the clutter of traditional UI to allow the typography to act as the primary architectural element of the user experience.',
       approach2:
@@ -118,7 +118,7 @@ async function main() {
     await prisma.project.create({ data: project })
   }
 
-  console.log('✅ Database seeded successfully')
+  console.log('Database seeded successfully')
 }
 
 main()

@@ -15,7 +15,7 @@ export default function SelectedWorks({ projects }: WorksGridProps) {
 return ( <section className="bg-cream px-6 md:px-10 py-20">
 {/* Header */} <div className="flex items-end justify-between mb-12"> <Reveal> <h2 className="font-display font-black text-5xl md:text-7xl text-charcoal leading-none">
 SELECTED <br />
-WORKS </h2> </Reveal> <Reveal delay={0.2}> <p className="text-label text-light-gray hidden md:block">SCROLL TO EXPLORE →</p> </Reveal> </div>
+WORKS </h2> </Reveal> <Reveal delay={0.2}> <p className="text-label text-light-gray hidden md:block">SCROLL TO EXPLORE</p> </Reveal> </div>
 
   {/* Projects grid */}
   <div className="space-y-0">
