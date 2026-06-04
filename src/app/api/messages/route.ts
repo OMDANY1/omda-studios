@@ -13,7 +13,10 @@ const messageSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
+    const body =
+      req.headers.get('content-type')?.includes('application/json')
+        ? await req.json()
+        : Object.fromEntries(await req.formData())
     const data = messageSchema.parse(body)
 
     const message = await prisma.message.create({ data })

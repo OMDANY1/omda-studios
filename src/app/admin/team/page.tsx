@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus } from 'lucide-react'
+import TeamMemberActions from '@/components/admin/TeamMemberActions'
 
 async function getTeam() {
   return prisma.teamMember.findMany({ orderBy: { order: 'asc' } })
@@ -40,16 +41,22 @@ export default async function AdminTeamPage() {
               )}
             </div>
             <div className="p-4">
-              <p className="font-bold text-charcoal">{member.name}</p>
-              <p className="text-sm text-gray-500">{member.role}</p>
-              {member.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{member.bio}</p>}
-              <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-                <Link
-                  href={`/admin/team/${member.id}/edit`}
-                  className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-charcoal transition-colors"
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-bold text-charcoal">{member.name}</p>
+                  <p className="text-sm text-gray-500">{member.role}</p>
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded ${
+                    member.published ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
+                  }`}
                 >
-                  <Pencil className="w-3.5 h-3.5" /> Edit
-                </Link>
+                  {member.published ? 'Published' : 'Hidden'}
+                </span>
+              </div>
+              {member.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{member.bio}</p>}
+              <div className="flex items-center justify-end gap-2 mt-4 pt-4 border-t border-gray-100">
+                <TeamMemberActions memberId={member.id} published={member.published} />
               </div>
             </div>
           </div>

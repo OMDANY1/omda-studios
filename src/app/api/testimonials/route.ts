@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { getAdminSession, unauthorizedResponse } from '@/lib/api-auth'
-import { serviceCreateSchema } from '@/lib/admin-schemas'
 import { z } from 'zod'
+import { getAdminSession, unauthorizedResponse } from '@/lib/api-auth'
+import { testimonialCreateSchema } from '@/lib/admin-schemas'
+import { prisma } from '@/lib/prisma'
+
+export const runtime = 'nodejs'
 
 export async function GET() {
   const session = await getAdminSession()
   if (!session) return unauthorizedResponse()
 
   try {
-    const services = await prisma.service.findMany({ orderBy: { order: 'asc' } })
-    return NextResponse.json({ data: services })
+    const testimonials = await prisma.testimonial.findMany({ orderBy: { order: 'asc' } })
+    return NextResponse.json({ data: testimonials })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
@@ -22,9 +24,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const data = serviceCreateSchema.parse(body)
-    const service = await prisma.service.create({ data })
-    return NextResponse.json({ data: service }, { status: 201 })
+    const data = testimonialCreateSchema.parse(body)
+    const testimonial = await prisma.testimonial.create({ data })
+
+    return NextResponse.json({ data: testimonial }, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors }, { status: 400 })

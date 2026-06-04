@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { messageUpdateSchema } from '@/lib/admin-schemas'
+import { z } from 'zod'
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
@@ -9,12 +11,16 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
   try {
     const body = await req.json()
+    const data = messageUpdateSchema.parse(body)
     const message = await prisma.message.update({
       where: { id: params.id },
-      data: body,
+      data,
     })
     return NextResponse.json({ data: message })
-  } catch {
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors }, { status: 400 })
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

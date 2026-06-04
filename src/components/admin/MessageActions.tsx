@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { CheckCheck, Archive, Trash2 } from 'lucide-react'
+import { Archive, Check, CheckCheck, Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface Props {
@@ -54,6 +54,16 @@ export default function MessageActions({ messageId, currentStatus }: Props) {
 
   return (
     <div className="flex items-center gap-1">
+      {currentStatus === 'UNREAD' && (
+        <button
+          onClick={() => updateStatus('READ')}
+          disabled={loading}
+          title="Mark as read"
+          className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
+        >
+          <Check className="w-4 h-4" />
+        </button>
+      )}
       {currentStatus !== 'REPLIED' && (
         <button
           onClick={() => updateStatus('REPLIED')}

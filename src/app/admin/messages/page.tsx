@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/utils'
 import MessageActions from '@/components/admin/MessageActions'
+import MessageCreateForm from '@/components/admin/MessageCreateForm'
 
 async function getMessages() {
   return prisma.message.findMany({ orderBy: { createdAt: 'desc' } })
@@ -27,6 +28,8 @@ export default async function AdminMessagesPage() {
           </p>
         </div>
       </div>
+
+      <MessageCreateForm />
 
       <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
         {messages.length === 0 ? (

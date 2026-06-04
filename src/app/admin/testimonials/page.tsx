@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { Plus, Star, Pencil } from 'lucide-react'
+import { Plus, Star } from 'lucide-react'
+import TestimonialActions from '@/components/admin/TestimonialActions'
 
 async function getTestimonials() {
   return prisma.testimonial.findMany({ orderBy: { order: 'asc' } })
@@ -45,12 +46,16 @@ export default async function AdminTestimonialsPage() {
                   )}
                 </div>
               </div>
-              <Link
-                href={`/admin/testimonials/${t.id}/edit`}
-                className="p-1.5 text-gray-400 hover:text-charcoal transition-colors"
-              >
-                <Pencil className="w-4 h-4" />
-              </Link>
+              <div className="flex flex-col items-end gap-3">
+                <span
+                  className={`text-xs px-2 py-0.5 rounded ${
+                    t.published ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
+                  }`}
+                >
+                  {t.published ? 'Published' : 'Hidden'}
+                </span>
+                <TestimonialActions testimonialId={t.id} published={t.published} />
+              </div>
             </div>
           </div>
         ))}
