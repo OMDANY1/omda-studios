@@ -39,6 +39,7 @@ model Project {
   year        String?
   coverImage  String?
   images      String[]  @default([])
+  gallery     Json      @default("[]")
   featured    Boolean   @default(false)
   published   Boolean   @default(true)
   order       Int       @default(0)
@@ -134,6 +135,20 @@ model BlogPost {
   publishedAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Homepage {
+  id                 String   @id @map("_id")
+  heroTitle          String   @default("OMDA")
+  heroLabel          String?
+  heroSubtitle       String?
+  heroDescription    String?
+  heroCtaText        String?
+  heroCtaLink        String?
+  heroMediaUrl       String?
+  heroMediaType      String   @default("image")
+  featuredProjectIds String[] @default([])
+  updatedAt          DateTime @updatedAt
 }
 
 model About {

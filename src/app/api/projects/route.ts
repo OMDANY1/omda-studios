@@ -4,6 +4,12 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
 import { slugify } from '@/lib/utils'
+import { galleryToLegacyImages } from '@/lib/media'
+
+const mediaItemSchema = z.object({
+  url: z.string().min(1),
+  type: z.enum(['image', 'video']),
+})
 
 const projectSchema = z.object({
   title: z.string().min(1),
@@ -20,6 +26,7 @@ const projectSchema = z.object({
   year: z.string().optional(),
   coverImage: z.string().optional(),
   images: z.array(z.string()).default([]),
+  gallery: z.array(mediaItemSchema).optional(),
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
   order: z.number().default(0),
@@ -49,10 +56,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const data = projectSchema.parse(body)
 
+    const gallery =
+      data.gallery ??
+      data.images.map((url) => ({ url, type: 'image' as const }))
+    const images = galleryToLegacyImages(gallery)
+
     const project = await prisma.project.create({
       data: {
         ...data,
         slug: data.slug || slugify(data.title),
+        gallery,
+        images,
       },
     })
 

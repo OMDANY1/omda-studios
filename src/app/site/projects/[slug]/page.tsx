@@ -5,6 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Reveal from '@/components/animations/Reveal'
 import CtaSection from '@/components/sections/CtaSection'
+import ProjectGallery from '@/components/sections/ProjectGallery'
+import MediaDisplay from '@/components/ui/MediaDisplay'
+import { mergeProjectGallery } from '@/lib/media'
 
 interface PageProps {
   params: { slug: string }
@@ -31,6 +34,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProjectPage({ params }: PageProps) {
   const project = await getProject(params.slug)
   if (!project) notFound()
+
+  const gallery = mergeProjectGallery(project.gallery, project.images)
 
   return (
     <>
@@ -116,9 +121,9 @@ export default async function ProjectPage({ params }: PageProps) {
             <Reveal delay={0.2}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <p className="text-sm text-mid-gray leading-relaxed">{project.challenge}</p>
-                {project.images[0] && (
+                {gallery[0] && (
                   <div className="aspect-[4/3] relative overflow-hidden">
-                    <Image src={project.images[0]} alt="Challenge" fill className="object-cover grayscale" />
+                    <MediaDisplay item={gallery[0]} alt="Challenge" className="object-cover grayscale" />
                   </div>
                 )}
               </div>
@@ -145,23 +150,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Image gallery */}
-      {project.images.length > 0 && (
-        <section className="bg-cream px-6 md:px-10 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {project.images.map((img, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <Image src={img} alt={`${project.title} ${i + 1}`} fill className="object-cover" />
-                  <p className="absolute bottom-4 left-4 text-label text-charcoal/60">
-                    DIRECTION DETAIL 0{i + 1}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-      )}
+      <ProjectGallery items={gallery} title={project.title} />
 
       {/* Watermark ticker */}
       <div className="bg-cream-dark py-8 overflow-hidden">

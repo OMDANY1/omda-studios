@@ -9,6 +9,8 @@ import toast from 'react-hot-toast'
 import { slugify } from '@/lib/utils'
 import type { Project } from '@/types'
 import MediaPicker from '@/components/admin/MediaPicker'
+import MediaGalleryPicker from '@/components/admin/MediaGalleryPicker'
+import { mergeProjectGallery, type MediaItem } from '@/lib/media'
 
 const schema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -39,6 +41,9 @@ export default function ProjectForm({ project }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [coverImage, setCoverImage] = useState(project?.coverImage || '')
+  const [gallery, setGallery] = useState<MediaItem[]>(() =>
+    project ? mergeProjectGallery(project.gallery, project.images) : []
+  )
 
   const {
     register,
@@ -83,7 +88,7 @@ export default function ProjectForm({ project }: Props) {
         ...data,
         tags: data.tags.split(',').map((t) => t.trim()).filter(Boolean),
         coverImage,
-        images: [],
+        gallery,
       }
 
       const url = project ? `/api/projects/${project.id}` : '/api/projects'
@@ -127,6 +132,14 @@ export default function ProjectForm({ project }: Props) {
             setValue('coverImage', url)
           }}
         />
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 p-6">
+        <h2 className="text-sm font-bold text-charcoal tracking-wide mb-4">GALLERY MEDIA</h2>
+        <p className="text-xs text-gray-400 mb-4">
+          Add multiple images and videos for the project detail page.
+        </p>
+        <MediaGalleryPicker value={gallery} onChange={setGallery} />
       </div>
 
       {/* Basic Info */}

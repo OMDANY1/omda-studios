@@ -8,7 +8,11 @@ import type { UploadApiResponse } from 'cloudinary'
 
 export const runtime = 'nodejs'
 
-function uploadToCloudinary(buffer: Buffer, originalName: string) {
+function uploadToCloudinary(
+  buffer: Buffer,
+  originalName: string,
+  resourceType: 'image' | 'video' = 'image'
+) {
   const filename = originalName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9-_]/g, '-')
   const publicId = `${nanoid()}-${filename || 'upload'}`
 
@@ -17,7 +21,7 @@ function uploadToCloudinary(buffer: Buffer, originalName: string) {
       {
         folder: getCloudinaryFolder(),
         public_id: publicId,
-        resource_type: 'image',
+        resource_type: resourceType,
         overwrite: false,
       },
       (error, result) => {
@@ -42,14 +46,17 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File
 
     if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 })
-    if (!file.type.startsWith('image/')) {
-      return NextResponse.json({ error: 'Only image uploads are supported' }, { status: 415 })
+
+    const isImage = file.type.startsWith('image/')
+    const isVideo = file.type.startsWith('video/')
+    if (!isImage && !isVideo) {
+      return NextResponse.json({ error: 'Only image and video uploads are supported' }, { status: 415 })
     }
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    const uploaded = await uploadToCloudinary(buffer, file.name)
+    const uploaded = await uploadToCloudinary(buffer, file.name, isVideo ? 'video' : 'image')
     const url = uploaded.secure_url
 
     // Save to database

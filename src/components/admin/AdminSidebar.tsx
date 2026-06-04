@@ -11,6 +11,7 @@ import {
   MessageSquare,
   FileText,
   HardDrive,
+  Home,
   Settings,
   ExternalLink,
   type LucideIcon,
@@ -24,6 +25,7 @@ export interface AdminNavItem {
 
 export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { label: 'Homepage', href: '/admin/homepage', icon: Home },
   { label: 'Projects', href: '/admin/projects', icon: FolderOpen },
   { label: 'Services', href: '/admin/services', icon: Briefcase },
   { label: 'Team', href: '/admin/team', icon: Users },

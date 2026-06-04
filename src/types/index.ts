@@ -1,3 +1,7 @@
+import type { MediaItem } from '@/lib/media'
+
+export type { MediaItem }
+
 export interface Project {
   id: string
   title: string
@@ -14,10 +18,25 @@ export interface Project {
   year?: string | null
   coverImage?: string | null
   images: string[]
+  gallery?: MediaItem[] | unknown
   featured: boolean
   published: boolean
   order: number
   createdAt: Date
+  updatedAt: Date
+}
+
+export interface Homepage {
+  id: string
+  heroTitle: string
+  heroLabel?: string | null
+  heroSubtitle?: string | null
+  heroDescription?: string | null
+  heroCtaText?: string | null
+  heroCtaLink?: string | null
+  heroMediaUrl?: string | null
+  heroMediaType: string
+  featuredProjectIds: string[]
   updatedAt: Date
 }
 
