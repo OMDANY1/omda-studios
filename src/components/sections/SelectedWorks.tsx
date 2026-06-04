@@ -27,7 +27,7 @@ WORKS </h2> </Reveal> <Reveal delay={0.2}> <p className="text-label text-light-g
   {/* View All */}
   <Reveal delay={0.2} className="mt-16 text-center">
     <Link
-      href="/site/projects"
+      href="/projects"
       className="inline-flex items-center gap-3 text-label text-charcoal border border-charcoal/20 px-10 py-4 hover:bg-charcoal hover:text-cream transition-all duration-300"
     >
       VIEW ALL PROJECTS
@@ -44,7 +44,7 @@ const isEven = index % 2 === 0
 
 return (
 <Reveal delay={index * 0.05}>
-<Link href={`/site/projects/${project.slug}`} className="group block mb-2">
+<Link href={`/projects/${project.slug}`} className="group block mb-2">
 <div className={`flex ${isEven ? 'flex-row' : 'flex-row-reverse'} items-end gap-0`}>
 {/* Image */} <div className="w-1/2 md:w-2/5 aspect-[4/3] overflow-hidden bg-zinc-200 relative">
 {project.coverImage ? ( <Image

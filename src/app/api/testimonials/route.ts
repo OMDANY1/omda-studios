@@ -7,11 +7,12 @@ import { prisma } from '@/lib/prisma'
 export const runtime = 'nodejs'
 
 export async function GET() {
-  const session = await getAdminSession()
-  if (!session) return unauthorizedResponse()
-
   try {
-    const testimonials = await prisma.testimonial.findMany({ orderBy: { order: 'asc' } })
+    const session = await getAdminSession()
+    const testimonials = await prisma.testimonial.findMany({
+      where: session ? undefined : { published: true },
+      orderBy: { order: 'asc' },
+    })
     return NextResponse.json({ data: testimonials })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

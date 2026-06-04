@@ -7,12 +7,12 @@ import { prisma } from '@/lib/prisma'
 export const runtime = 'nodejs'
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getAdminSession()
-  if (!session) return unauthorizedResponse()
-
   try {
+    const session = await getAdminSession()
     const member = await prisma.teamMember.findUnique({ where: { id: params.id } })
-    if (!member) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (!member || (!session && !member.published)) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
 
     return NextResponse.json({ data: member })
   } catch {

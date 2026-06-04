@@ -6,9 +6,11 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
-  { label: 'PROJECTS', href: '/site/projects' },
-  { label: 'ABOUT', href: '/site/about' },
-  { label: 'CONTACT', href: '/site/contact' },
+  { label: 'PROJECTS', href: '/projects' },
+  { label: 'BLOG', href: '/blog' },
+  { label: 'TEAM', href: '/team' },
+  { label: 'TESTIMONIALS', href: '/testimonials' },
+  { label: 'CONTACT', href: '/contact' },
 ]
 
 export default function Navbar() {
@@ -65,7 +67,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="flex items-center gap-4">
             <Link
-              href="/site/contact"
+              href="/contact"
               className="hidden md:flex items-center bg-crimson text-cream text-label px-5 py-2.5 hover:bg-crimson-800 transition-colors"
             >
               INQUIRY
@@ -129,7 +131,7 @@ export default function Navbar() {
                 transition={{ delay: 0.5 }}
               >
                 <Link
-                  href="/site/contact"
+                  href="/contact"
                   className="inline-block bg-crimson text-cream text-label px-8 py-4 mt-4"
                 >
                   INQUIRY
