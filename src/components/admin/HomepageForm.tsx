@@ -60,7 +60,7 @@ export default function HomepageForm({ homepage, projects }: Props) {
 
     try {
       const res = await fetch('/api/homepage', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
