@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import type { Homepage, Project } from '@/types'
 import HeroMediaPicker from '@/components/admin/HeroMediaPicker'
+import MediaPicker from '@/components/admin/MediaPicker'
 
 interface Props {
   homepage: Homepage
@@ -18,6 +19,11 @@ export default function HomepageForm({ homepage, projects }: Props) {
   const [heroMediaUrl, setHeroMediaUrl] = useState(homepage.heroMediaUrl || '')
   const [heroMediaType, setHeroMediaType] = useState<'image' | 'video'>(
     homepage.heroMediaType === 'video' ? 'video' : 'image'
+  )
+  const [heroPosterUrl, setHeroPosterUrl] = useState(homepage.heroPosterUrl || '')
+  const [heroVideoEnabled, setHeroVideoEnabled] = useState(homepage.heroVideoEnabled !== false)
+  const [tickerPhrases, setTickerPhrases] = useState(
+    (homepage.tickerPhrases || []).join('\n')
   )
   const [featuredIds, setFeaturedIds] = useState<string[]>(homepage.featuredProjectIds || [])
 
@@ -47,6 +53,10 @@ export default function HomepageForm({ homepage, projects }: Props) {
 
     const form = e.currentTarget
     const data = Object.fromEntries(new FormData(form))
+    const phrases = tickerPhrases
+      .split('\n')
+      .map((p) => p.trim())
+      .filter(Boolean)
 
     try {
       const res = await fetch('/api/homepage', {
@@ -56,6 +66,9 @@ export default function HomepageForm({ homepage, projects }: Props) {
           ...data,
           heroMediaUrl: heroMediaUrl || null,
           heroMediaType,
+          heroPosterUrl: heroPosterUrl || null,
+          heroVideoEnabled,
+          tickerPhrases: phrases,
           featuredProjectIds: featuredIds,
         }),
       })
@@ -85,32 +98,17 @@ export default function HomepageForm({ homepage, projects }: Props) {
 
         <div>
           <label className={labelClass}>HERO TITLE</label>
-          <input
-            name="heroTitle"
-            defaultValue={homepage.heroTitle}
-            className={inputClass}
-            placeholder="OMDA"
-          />
+          <input name="heroTitle" defaultValue={homepage.heroTitle} className={inputClass} />
         </div>
 
         <div>
           <label className={labelClass}>LABEL (above description)</label>
-          <input
-            name="heroLabel"
-            defaultValue={homepage.heroLabel || ''}
-            className={inputClass}
-            placeholder="ART DIRECTION / DIGITAL CRAFT"
-          />
+          <input name="heroLabel" defaultValue={homepage.heroLabel || ''} className={inputClass} />
         </div>
 
         <div>
           <label className={labelClass}>SUBTITLE</label>
-          <input
-            name="heroSubtitle"
-            defaultValue={homepage.heroSubtitle || ''}
-            className={inputClass}
-            placeholder="Optional subtitle"
-          />
+          <input name="heroSubtitle" defaultValue={homepage.heroSubtitle || ''} className={inputClass} />
         </div>
 
         <div>
@@ -126,26 +124,16 @@ export default function HomepageForm({ homepage, projects }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className={labelClass}>CTA BUTTON TEXT</label>
-            <input
-              name="heroCtaText"
-              defaultValue={homepage.heroCtaText || ''}
-              className={inputClass}
-              placeholder="View our work"
-            />
+            <input name="heroCtaText" defaultValue={homepage.heroCtaText || ''} className={inputClass} />
           </div>
           <div>
             <label className={labelClass}>CTA LINK</label>
-            <input
-              name="heroCtaLink"
-              defaultValue={homepage.heroCtaLink || ''}
-              className={inputClass}
-              placeholder="/projects"
-            />
+            <input name="heroCtaLink" defaultValue={homepage.heroCtaLink || ''} className={inputClass} />
           </div>
         </div>
 
         <div>
-          <label className={labelClass}>BACKGROUND IMAGE / VIDEO</label>
+          <label className={labelClass}>HERO VIDEO / IMAGE</label>
           <div className="mt-2">
             <HeroMediaPicker
               url={heroMediaUrl}
@@ -157,13 +145,98 @@ export default function HomepageForm({ homepage, projects }: Props) {
             />
           </div>
         </div>
+
+        <div>
+          <label className={labelClass}>HERO POSTER IMAGE (fallback when video disabled or loading)</label>
+          <div className="mt-2 max-w-sm">
+            <MediaPicker value={heroPosterUrl} onChange={setHeroPosterUrl} />
+          </div>
+        </div>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={heroVideoEnabled}
+            onChange={(e) => setHeroVideoEnabled(e.target.checked)}
+            className="w-4 h-4 accent-crimson"
+          />
+          <span className="text-sm text-charcoal">Enable hero video (when video media is set)</span>
+        </label>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="text-sm font-bold text-charcoal tracking-wide mb-4">TICKER BANNER</h2>
+        <div>
+          <label className={labelClass}>PHRASES (one per line)</label>
+          <textarea
+            value={tickerPhrases}
+            onChange={(e) => setTickerPhrases(e.target.value)}
+            rows={4}
+            className={inputClass + ' resize-none'}
+            placeholder="RADICAL SIMPLICITY&#10;VISUAL AUTHORITY"
+          />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="text-sm font-bold text-charcoal tracking-wide mb-4">SELECTED WORKS SECTION</h2>
+        <div>
+          <label className={labelClass}>SECTION TITLE (use \n for line break)</label>
+          <input name="worksTitle" defaultValue={homepage.worksTitle || ''} className={inputClass} />
+        </div>
+        <div>
+          <label className={labelClass}>SUBTITLE</label>
+          <input name="worksSubtitle" defaultValue={homepage.worksSubtitle || ''} className={inputClass} />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="text-sm font-bold text-charcoal tracking-wide mb-4">SERVICES SECTION</h2>
+        <div>
+          <label className={labelClass}>LABEL</label>
+          <input name="servicesLabel" defaultValue={homepage.servicesLabel || ''} className={inputClass} />
+        </div>
+        <div>
+          <label className={labelClass}>TITLE (use \n for line break)</label>
+          <input name="servicesTitle" defaultValue={homepage.servicesTitle || ''} className={inputClass} />
+        </div>
+        <div>
+          <label className={labelClass}>DESCRIPTION</label>
+          <textarea
+            name="servicesDescription"
+            rows={3}
+            defaultValue={homepage.servicesDescription || ''}
+            className={inputClass + ' resize-none'}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="text-sm font-bold text-charcoal tracking-wide mb-4">CTA SECTION</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className={labelClass}>TITLE</label>
+            <input name="ctaTitle" defaultValue={homepage.ctaTitle || ''} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>SUBTITLE</label>
+            <input name="ctaSubtitle" defaultValue={homepage.ctaSubtitle || ''} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>BUTTON TEXT</label>
+            <input name="ctaButtonText" defaultValue={homepage.ctaButtonText || ''} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>BUTTON LINK</label>
+            <input name="ctaLink" defaultValue={homepage.ctaLink || ''} className={inputClass} />
+          </div>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 p-6">
         <h2 className="text-sm font-bold text-charcoal tracking-wide mb-2">FEATURED PROJECTS</h2>
         <p className="text-xs text-gray-400 mb-4">
-          Select projects for the homepage &quot;Selected Works&quot; section. Order controls display
-          sequence.
+          Select projects for the homepage. Order controls display sequence.
         </p>
 
         {publishedProjects.length === 0 ? (
@@ -187,11 +260,7 @@ export default function HomepageForm({ homepage, projects }: Props) {
                     className="w-4 h-4 accent-crimson"
                   />
                   {project.coverImage ? (
-                    <img
-                      src={project.coverImage}
-                      alt=""
-                      className="w-12 h-9 object-cover rounded"
-                    />
+                    <img src={project.coverImage} alt="" className="w-12 h-9 object-cover rounded" />
                   ) : (
                     <div className="w-12 h-9 bg-gray-200 rounded" />
                   )}

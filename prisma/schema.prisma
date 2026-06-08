@@ -138,17 +138,41 @@ model BlogPost {
 }
 
 model Homepage {
-  id                 String   @id @map("_id")
-  heroTitle          String   @default("OMDA")
-  heroLabel          String?
-  heroSubtitle       String?
-  heroDescription    String?
-  heroCtaText        String?
-  heroCtaLink        String?
-  heroMediaUrl       String?
-  heroMediaType      String   @default("image")
-  featuredProjectIds String[] @default([])
-  updatedAt          DateTime @updatedAt
+  id                  String   @id @map("_id")
+  heroTitle           String   @default("OMDA")
+  heroLabel           String?
+  heroSubtitle        String?
+  heroDescription     String?
+  heroCtaText         String?
+  heroCtaLink         String?
+  heroMediaUrl        String?
+  heroMediaType       String   @default("image")
+  heroPosterUrl       String?
+  heroVideoEnabled    Boolean  @default(true)
+  tickerPhrases       String[] @default([])
+  worksTitle          String?
+  worksSubtitle       String?
+  servicesLabel       String?
+  servicesTitle       String?
+  servicesDescription String?
+  ctaTitle            String?
+  ctaSubtitle         String?
+  ctaButtonText       String?
+  ctaLink             String?
+  featuredProjectIds  String[] @default([])
+  updatedAt           DateTime @updatedAt
+}
+
+model SiteConfig {
+  id              String   @id @map("_id")
+  siteName        String   @default("OMDA Studios")
+  logoUrl         String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[] @default([])
+  ogImage         String?
+  siteUrl         String?
+  updatedAt       DateTime @updatedAt
 }
 
 model About {

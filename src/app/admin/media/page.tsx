@@ -66,7 +66,10 @@ export default function AdminMediaPage() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
+    accept: {
+      'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
+      'video/*': ['.mp4', '.webm'],
+    },
   })
 
   function copyUrl(id: string, url: string) {
@@ -137,8 +140,8 @@ export default function AdminMediaPage() {
           <div className="flex flex-col items-center gap-3">
             <Upload className="w-10 h-10 text-gray-300" />
             <div>
-              <p className="text-sm text-gray-500 font-medium">Drop images here or click to upload</p>
-              <p className="text-xs text-gray-300 mt-1">JPG, PNG, WebP, GIF supported</p>
+              <p className="text-sm text-gray-500 font-medium">Drop images or videos here or click to upload</p>
+              <p className="text-xs text-gray-300 mt-1">JPG, PNG, WebP, GIF, MP4, WebM supported</p>
             </div>
           </div>
         )}
@@ -160,7 +163,11 @@ export default function AdminMediaPage() {
           {media.map((item) => (
             <div key={item.id} className="group relative bg-white rounded-lg overflow-hidden border border-gray-100">
               <div className="aspect-square relative overflow-hidden bg-gray-50">
-                <img src={item.url} alt={item.filename} className="w-full h-full object-cover" />
+                {item.type.startsWith('video/') ? (
+                  <video src={item.url} className="w-full h-full object-cover" muted playsInline />
+                ) : (
+                  <img src={item.url} alt={item.alt || item.filename} className="w-full h-full object-cover" />
+                )}
               </div>
               <div className="p-2">
                 {editingId === item.id ? (

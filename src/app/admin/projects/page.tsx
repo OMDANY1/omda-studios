@@ -69,7 +69,12 @@ export default async function AdminProjectsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <AdminProjectActions projectId={project.id} slug={project.slug} />
+                  <AdminProjectActions
+                    projectId={project.id}
+                    slug={project.slug}
+                    published={project.published}
+                    featured={project.featured}
+                  />
                 </td>
               </tr>
             ))}

@@ -1,4 +1,7 @@
 import { prisma } from '@/lib/prisma'
+import { getHomepage } from '@/lib/cms'
+import { buildSiteMetadata } from '@/lib/seo'
+import { getSiteConfig } from '@/lib/cms'
 import HeroSection from '@/components/sections/HeroSection'
 import TickerSection from '@/components/sections/TickerSection'
 import SelectedWorks from '@/components/sections/SelectedWorks'
@@ -6,18 +9,16 @@ import ServicesSection from '@/components/sections/ServicesSection'
 import CtaSection from '@/components/sections/CtaSection'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'OMDA Studios - Art Direction & Digital Craft',
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig()
+  return buildSiteMetadata(siteConfig)
 }
 
-export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
-
-const HOMEPAGE_ID = 'default'
+export const revalidate = 60
 
 async function getData() {
   const [homepage, allPublished, services] = await Promise.all([
-    prisma.homepage.findUnique({ where: { id: HOMEPAGE_ID } }),
+    getHomepage(),
     prisma.project.findMany({
       where: { published: true },
       orderBy: { order: 'asc' },
@@ -28,7 +29,7 @@ async function getData() {
     }),
   ])
 
-  const featuredIds = homepage?.featuredProjectIds ?? []
+  const featuredIds = homepage.featuredProjectIds ?? []
   let projects = allPublished
 
   if (featuredIds.length > 0) {
@@ -40,31 +41,33 @@ async function getData() {
     projects = allPublished.slice(0, 6)
   }
 
-  const heroContent = homepage ?? {
-    heroTitle: 'OMDA',
-    heroLabel: 'ART DIRECTION / DIGITAL CRAFT',
-    heroSubtitle: null,
-    heroDescription:
-      'A curation of visual narratives where editorial precision meets raw brutalist expression. We build digital monographs for the bold.',
-    heroCtaText: null,
-    heroCtaLink: null,
-    heroMediaUrl: null,
-    heroMediaType: 'image',
-  }
-
-  return { projects, services, heroContent }
+  return { projects, services, homepage }
 }
 
 export default async function HomePage() {
-  const { projects, services, heroContent } = await getData()
+  const { projects, services, homepage } = await getData()
 
   return (
     <>
-      <HeroSection content={heroContent} />
-      <TickerSection />
-      <SelectedWorks projects={projects} />
-      <ServicesSection services={services} />
-      <CtaSection />
+      <HeroSection content={homepage} />
+      <TickerSection phrases={homepage.tickerPhrases} />
+      <SelectedWorks
+        projects={projects}
+        title={homepage.worksTitle}
+        subtitle={homepage.worksSubtitle}
+      />
+      <ServicesSection
+        services={services}
+        label={homepage.servicesLabel}
+        title={homepage.servicesTitle}
+        description={homepage.servicesDescription}
+      />
+      <CtaSection
+        title={homepage.ctaTitle}
+        subtitle={homepage.ctaSubtitle}
+        buttonText={homepage.ctaButtonText}
+        link={homepage.ctaLink}
+      />
     </>
   )
 }

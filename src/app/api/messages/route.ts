@@ -5,10 +5,11 @@ import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
 
 const messageSchema = z.object({
-  name: z.string().min(1).max(100),
+  name: z.string().min(2).max(100),
   email: z.string().email(),
   subject: z.string().optional(),
-  message: z.string().min(1).max(5000),
+  message: z.string().min(10).max(5000),
+  website: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -17,14 +18,20 @@ export async function POST(req: NextRequest) {
       req.headers.get('content-type')?.includes('application/json')
         ? await req.json()
         : Object.fromEntries(await req.formData())
+
     const data = messageSchema.parse(body)
 
-    const message = await prisma.message.create({ data })
+    if (data.website) {
+      return NextResponse.json({ data: { id: 'ok' } }, { status: 201 })
+    }
+
+    const { website: _, ...messageData } = data
+    const message = await prisma.message.create({ data: messageData })
 
     return NextResponse.json({ data: message }, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 })
+      return NextResponse.json({ error: 'Please check your form and try again.' }, { status: 400 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

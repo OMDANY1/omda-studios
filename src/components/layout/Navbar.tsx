@@ -13,7 +13,12 @@ const navItems = [
   { label: 'CONTACT', href: '/contact' },
 ]
 
-export default function Navbar() {
+interface NavbarProps {
+  siteName?: string | null
+}
+
+export default function Navbar({ siteName }: NavbarProps) {
+  const logoText = siteName?.replace(/\s/g, '').toUpperCase() || 'OMDASTUDIOS'
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -38,7 +43,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-6 md:px-10 h-14">
           {/* Logo */}
           <Link href="/site" className="font-display font-bold text-sm tracking-[0.15em] text-charcoal hover:text-crimson transition-colors">
-            OMDASTUDIOS
+            {logoText}
           </Link>
 
           {/* Desktop Nav */}

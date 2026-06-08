@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { Plus, Eye, EyeOff, Pencil } from 'lucide-react'
+import { Plus, Eye, EyeOff } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
+import BlogPostActions from '@/components/admin/BlogPostActions'
 
 async function getPosts() {
   return prisma.blogPost.findMany({ orderBy: { createdAt: 'desc' } })
@@ -65,13 +66,7 @@ export default async function AdminBlogPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <Link
-                    href={`/admin/blog/${post.id}/edit`}
-                    className="p-1.5 text-gray-400 hover:text-charcoal transition-colors inline-flex"
-                    title="Edit"
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </Link>
+                  <BlogPostActions postId={post.id} slug={post.slug} published={post.published} />
                 </td>
               </tr>
             ))}

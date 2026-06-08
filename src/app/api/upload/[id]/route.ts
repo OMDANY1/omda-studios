@@ -8,6 +8,10 @@ import { z } from 'zod'
 
 export const runtime = 'nodejs'
 
+function getResourceType(mimeType: string): 'image' | 'video' {
+  return mimeType.startsWith('video/') ? 'video' : 'image'
+}
+
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -42,7 +46,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
     if (!media) return NextResponse.json({ error: 'Media not found' }, { status: 404 })
 
     if (media.publicId) {
-      await getCloudinary().uploader.destroy(media.publicId, { resource_type: 'image' })
+      await getCloudinary().uploader.destroy(media.publicId, {
+        resource_type: getResourceType(media.type),
+      })
     }
 
     await prisma.media.delete({

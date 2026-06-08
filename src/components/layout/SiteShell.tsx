@@ -5,8 +5,15 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import LoadingScreen from '@/components/animations/LoadingScreen'
 import PageTransition from '@/components/animations/PageTransition'
+import type { About, SiteConfig } from '@/types'
 
-export default function SiteShell({ children }: { children: React.ReactNode }) {
+interface SiteShellProps {
+  children: React.ReactNode
+  about?: About | null
+  siteConfig?: SiteConfig | null
+}
+
+export default function SiteShell({ children, about, siteConfig }: SiteShellProps) {
   const cursorRef = useRef<HTMLDivElement>(null)
   const followerRef = useRef<HTMLDivElement>(null)
 
@@ -83,7 +90,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-cursor">
-      <LoadingScreen />
+      <LoadingScreen siteName={siteConfig?.siteName} />
 
       {!isTouchDevice && (
         <>
@@ -92,13 +99,13 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
         </>
       )}
 
-      <Navbar />
+      <Navbar siteName={siteConfig?.siteName} />
 
       <PageTransition>
         <main>{children}</main>
       </PageTransition>
 
-      <Footer />
+      <Footer about={about} siteConfig={siteConfig} />
     </div>
   )
 }

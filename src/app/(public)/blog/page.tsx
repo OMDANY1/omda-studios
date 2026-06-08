@@ -1,15 +1,18 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Reveal from '@/components/animations/Reveal'
 import CtaSection from '@/components/sections/CtaSection'
 import { fetchApi } from '@/lib/fetch-api'
 import { formatDate } from '@/lib/utils'
+import { getHomepage, getSiteConfig } from '@/lib/cms'
+import { buildSiteMetadata } from '@/lib/seo'
 import { ArrowUpRight } from 'lucide-react'
 import type { BlogPost } from '@prisma/client'
+import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Blog',
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig()
+  return buildSiteMetadata(siteConfig, { title: 'Blog', path: '/blog' })
 }
 
 export const dynamic = 'force-dynamic'
@@ -20,7 +23,7 @@ async function getPosts() {
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts()
+  const [posts, homepage] = await Promise.all([getPosts(), getHomepage()])
 
   return (
     <>
@@ -98,7 +101,12 @@ export default async function BlogPage() {
         )}
       </section>
 
-      <CtaSection />
+      <CtaSection
+        title={homepage.ctaTitle}
+        subtitle={homepage.ctaSubtitle}
+        buttonText={homepage.ctaButtonText}
+        link={homepage.ctaLink}
+      />
     </>
   )
 }

@@ -3,7 +3,12 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function LoadingScreen() {
+interface LoadingScreenProps {
+  siteName?: string | null
+}
+
+export default function LoadingScreen({ siteName }: LoadingScreenProps) {
+  const splashText = siteName?.split(' ')[0]?.toUpperCase() || 'OMDA'
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,7 +40,7 @@ export default function LoadingScreen() {
               animate={{ y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             >
-              OMDA
+              {splashText}
             </motion.h1>
             <motion.div
               className="absolute bottom-0 left-0 h-px bg-crimson"

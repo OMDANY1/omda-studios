@@ -62,7 +62,7 @@ export default function SettingsForm({ about }: Props) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className={labelClass}>HEADLINE</label>
-            <input name="headline" defaultValue={about?.headline || 'THE CURATOR'} className={inputClass} />
+            <input name="headline" defaultValue={about?.headline || ''} className={inputClass} />
           </div>
           <div>
             <label className={labelClass}>TAGLINE / ROLE</label>
@@ -130,7 +130,7 @@ export default function SettingsForm({ about }: Props) {
           </div>
           <div>
             <label className={labelClass}>EST. YEAR</label>
-            <input name="estYear" defaultValue={about?.estYear || '2018'} className={inputClass} />
+            <input name="estYear" defaultValue={about?.estYear || ''} className={inputClass} />
           </div>
         </div>
       </div>

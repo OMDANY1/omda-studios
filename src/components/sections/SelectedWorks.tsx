@@ -9,6 +9,8 @@ import type { Project } from '@/types'
 
 interface WorksGridProps {
   projects: Project[]
+  title?: string | null
+  subtitle?: string | null
 }
 
 function projectPreviewMedia(project: Project): MediaItem | null {
@@ -19,27 +21,35 @@ function projectPreviewMedia(project: Project): MediaItem | null {
   return gallery[0] ?? null
 }
 
-export default function SelectedWorks({ projects }: WorksGridProps) {
+export default function SelectedWorks({ projects, title, subtitle }: WorksGridProps) {
+  const displayTitle = title || 'SELECTED\nWORKS'
+
   return (
     <section className="bg-cream px-6 md:px-10 py-20">
       <div className="flex items-end justify-between mb-12">
         <Reveal>
-          <h2 className="font-display font-black text-5xl md:text-7xl text-charcoal leading-none">
-            SELECTED
-            <br />
-            WORKS
+          <h2 className="font-display font-black text-5xl md:text-7xl text-charcoal leading-none whitespace-pre-line">
+            {displayTitle}
           </h2>
         </Reveal>
-        <Reveal delay={0.2}>
-          <p className="text-label text-light-gray hidden md:block">SCROLL TO EXPLORE</p>
-        </Reveal>
+        {subtitle && (
+          <Reveal delay={0.2}>
+            <p className="text-label text-light-gray hidden md:block">{subtitle}</p>
+          </Reveal>
+        )}
       </div>
 
-      <div className="space-y-0">
-        {projects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} />
-        ))}
-      </div>
+      {projects.length === 0 ? (
+        <div className="text-center py-20 border border-charcoal/10">
+          <p className="text-label text-light-gray">Projects coming soon.</p>
+        </div>
+      ) : (
+        <div className="space-y-0">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} />
+          ))}
+        </div>
+      )}
 
       <Reveal delay={0.2} className="mt-16 text-center">
         <Link

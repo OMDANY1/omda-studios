@@ -3,8 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
-
-const HOMEPAGE_ID = 'default'
+import { HOMEPAGE_ID } from '@/lib/cms'
 
 const homepageSchema = z.object({
   heroTitle: z.string().min(1).optional(),
@@ -15,31 +14,53 @@ const homepageSchema = z.object({
   heroCtaLink: z.string().nullable().optional(),
   heroMediaUrl: z.string().nullable().optional(),
   heroMediaType: z.enum(['image', 'video']).optional(),
+  heroPosterUrl: z.string().nullable().optional(),
+  heroVideoEnabled: z.boolean().optional(),
+  tickerPhrases: z.array(z.string()).optional(),
+  worksTitle: z.string().nullable().optional(),
+  worksSubtitle: z.string().nullable().optional(),
+  servicesLabel: z.string().nullable().optional(),
+  servicesTitle: z.string().nullable().optional(),
+  servicesDescription: z.string().nullable().optional(),
+  ctaTitle: z.string().nullable().optional(),
+  ctaSubtitle: z.string().nullable().optional(),
+  ctaButtonText: z.string().nullable().optional(),
+  ctaLink: z.string().nullable().optional(),
   featuredProjectIds: z.array(z.string()).optional(),
 })
 
 const defaultHomepage = {
   id: HOMEPAGE_ID,
-  heroTitle: 'OMDA',
-  heroLabel: 'ART DIRECTION / DIGITAL CRAFT',
+  heroTitle: '',
+  heroLabel: '',
   heroSubtitle: null,
-  heroDescription:
-    'A curation of visual narratives where editorial precision meets raw brutalist expression. We build digital monographs for the bold.',
+  heroDescription: '',
   heroCtaText: null,
   heroCtaLink: null,
   heroMediaUrl: null,
   heroMediaType: 'image',
+  heroPosterUrl: null,
+  heroVideoEnabled: true,
+  tickerPhrases: [] as string[],
+  worksTitle: null,
+  worksSubtitle: null,
+  servicesLabel: null,
+  servicesTitle: null,
+  servicesDescription: null,
+  ctaTitle: null,
+  ctaSubtitle: null,
+  ctaButtonText: null,
+  ctaLink: null,
   featuredProjectIds: [] as string[],
 }
 
 export async function GET() {
   try {
-    let homepage = await prisma.homepage.findUnique({ where: { id: HOMEPAGE_ID } })
-    if (!homepage) {
-      homepage = await prisma.homepage.create({
-        data: defaultHomepage,
-      })
-    }
+    const homepage = await prisma.homepage.upsert({
+      where: { id: HOMEPAGE_ID },
+      update: {},
+      create: defaultHomepage,
+    })
     return NextResponse.json({ data: homepage })
   } catch (error) {
     console.error(error)

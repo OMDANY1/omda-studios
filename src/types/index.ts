@@ -36,7 +36,31 @@ export interface Homepage {
   heroCtaLink?: string | null
   heroMediaUrl?: string | null
   heroMediaType: string
+  heroPosterUrl?: string | null
+  heroVideoEnabled: boolean
+  tickerPhrases: string[]
+  worksTitle?: string | null
+  worksSubtitle?: string | null
+  servicesLabel?: string | null
+  servicesTitle?: string | null
+  servicesDescription?: string | null
+  ctaTitle?: string | null
+  ctaSubtitle?: string | null
+  ctaButtonText?: string | null
+  ctaLink?: string | null
   featuredProjectIds: string[]
+  updatedAt: Date
+}
+
+export interface SiteConfig {
+  id: string
+  siteName: string
+  logoUrl?: string | null
+  metaTitle?: string | null
+  metaDescription?: string | null
+  metaKeywords: string[]
+  ogImage?: string | null
+  siteUrl?: string | null
   updatedAt: Date
 }
 
