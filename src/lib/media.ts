@@ -9,6 +9,14 @@ export function isVideoUrl(url: string): boolean {
   return /\.(mp4|webm|mov|m4v)(\?|$)/i.test(url) || url.includes('/video/upload/')
 }
 
+export function isWebmUrl(url: string): boolean {
+  return /\.webm(\?|$)/i.test(url)
+}
+
+export function isMp4Url(url: string): boolean {
+  return /\.(mp4|m4v)(\?|$)/i.test(url) || (url.includes('/video/upload/') && !isWebmUrl(url))
+}
+
 export function inferMediaType(url: string, explicit?: string): MediaItemType {
   if (explicit === 'video' || explicit === 'image') return explicit
   return isVideoUrl(url) ? 'video' : 'image'

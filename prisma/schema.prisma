@@ -146,6 +146,7 @@ model Homepage {
   heroCtaText         String?
   heroCtaLink         String?
   heroMediaUrl        String?
+  heroMediaMp4Url     String?
   heroMediaType       String   @default("image")
   heroPosterUrl       String?
   heroVideoEnabled    Boolean  @default(true)

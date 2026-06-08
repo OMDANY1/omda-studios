@@ -17,6 +17,7 @@ export default function HomepageForm({ homepage, projects }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [heroMediaUrl, setHeroMediaUrl] = useState(homepage.heroMediaUrl || '')
+  const [heroMediaMp4Url, setHeroMediaMp4Url] = useState(homepage.heroMediaMp4Url || '')
   const [heroMediaType, setHeroMediaType] = useState<'image' | 'video'>(
     homepage.heroMediaType === 'video' ? 'video' : 'image'
   )
@@ -65,6 +66,7 @@ export default function HomepageForm({ homepage, projects }: Props) {
         body: JSON.stringify({
           ...data,
           heroMediaUrl: heroMediaUrl || null,
+          heroMediaMp4Url: heroMediaMp4Url || null,
           heroMediaType,
           heroPosterUrl: heroPosterUrl || null,
           heroVideoEnabled,
@@ -134,6 +136,9 @@ export default function HomepageForm({ homepage, projects }: Props) {
 
         <div>
           <label className={labelClass}>HERO VIDEO / IMAGE</label>
+          <p className="text-xs text-gray-400 mb-2">
+            Upload WebM with alpha for transparent video. MP4 fallback optional below.
+          </p>
           <div className="mt-2">
             <HeroMediaPicker
               url={heroMediaUrl}
@@ -145,6 +150,22 @@ export default function HomepageForm({ homepage, projects }: Props) {
             />
           </div>
         </div>
+
+        {heroMediaType === 'video' && (
+          <div>
+            <label className={labelClass}>MP4 FALLBACK (optional)</label>
+            <p className="text-xs text-gray-400 mb-2">
+              Used when WebM is unavailable or fails to load.
+            </p>
+            <div className="mt-2 max-w-sm">
+              <HeroMediaPicker
+                url={heroMediaMp4Url}
+                mediaType="video"
+                onChange={(url) => setHeroMediaMp4Url(url)}
+              />
+            </div>
+          </div>
+        )}
 
         <div>
           <label className={labelClass}>HERO POSTER IMAGE (fallback when video disabled or loading)</label>

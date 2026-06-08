@@ -8,13 +8,13 @@ export default function TickerSection({ phrases = [] }: TickerSectionProps) {
   const items = [...phrases, ...phrases]
 
   return (
-    <div className="bg-crimson py-4 overflow-hidden">
+    <div className="bg-crimson py-5 md:py-6 overflow-hidden border-y border-crimson-800/20">
       <div className="ticker-track">
         {items.map((item, i) => (
           <span
             key={`${item}-${i}`}
-            className={`inline-block px-8 font-display font-black text-xl md:text-2xl tracking-wider whitespace-nowrap ${
-              i % 2 === 0 ? 'text-cream/30 italic' : 'text-cream'
+            className={`inline-block px-6 md:px-10 font-display font-black text-lg md:text-2xl tracking-wider whitespace-nowrap ${
+              i % 2 === 0 ? 'text-cream/25 italic' : 'text-cream/90'
             }`}
           >
             {item}

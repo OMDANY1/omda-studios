@@ -113,6 +113,81 @@ body {
   letter-spacing: -0.02em;
 }
 
+.hero-title {
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+}
+
+.section-padding {
+  padding-left: clamp(1.25rem, 4vw, 2.5rem);
+  padding-right: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.section-spacing {
+  padding-top: clamp(4rem, 10vw, 7rem);
+  padding-bottom: clamp(4rem, 10vw, 7rem);
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+}
+
+.prose-editorial {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.75;
+  color: var(--color-mid);
+}
+
+/* Hero media — transparent video support */
+.hero-media-frame {
+  overflow: visible;
+}
+
+.hero-media-frame:not(.hero-media-frame--transparent) {
+  overflow: hidden;
+  background-color: var(--color-cream-dark);
+}
+
+.hero-media-frame--transparent {
+  background: transparent;
+}
+
+.hero-media {
+  overflow: hidden;
+}
+
+.hero-media--transparent {
+  background: transparent !important;
+  overflow: visible;
+}
+
+.hero-media--transparent .hero-media__video {
+  background: transparent !important;
+  object-fit: contain;
+}
+
+.hero-media--image {
+  background-color: var(--color-cream-dark);
+}
+
+.hero-media__video {
+  background-color: transparent;
+}
+
+/* Subtle image loading shimmer */
+@keyframes shimmer {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.4; }
+}
+
+.media-loading {
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
 .text-label {
   font-family: var(--font-body);
   font-size: 0.65rem;
@@ -135,6 +210,16 @@ body {
 
 .ticker-track:hover {
   animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ticker-track {
+    animation: none;
+  }
 }
 
 /* Image grayscale on hover */

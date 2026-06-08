@@ -19,12 +19,12 @@ export default function Reveal({
   once = true,
 }: RevealProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once, margin: '-80px 0px' })
+  const isInView = useInView(ref, { once, margin: '-60px 0px -40px 0px', amount: 0.15 })
 
   const dirMap = {
-    up: { y: 40, x: 0 },
-    left: { y: 0, x: -30 },
-    right: { y: 0, x: 30 },
+    up: { y: 28, x: 0 },
+    left: { y: 0, x: -24 },
+    right: { y: 0, x: 24 },
     none: { y: 0, x: 0 },
   }
 
@@ -35,7 +35,7 @@ export default function Reveal({
       initial={{ opacity: 0, ...dirMap[direction] }}
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
       transition={{
-        duration: 0.8,
+        duration: 0.9,
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}

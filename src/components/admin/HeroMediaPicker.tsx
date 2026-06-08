@@ -56,11 +56,24 @@ export default function HeroMediaPicker({ url, mediaType, onChange }: HeroMediaP
   })
 
   if (url) {
+    const isVideo = mediaType === 'video'
     return (
       <div className="relative group">
-        <div className="aspect-video relative overflow-hidden rounded-lg bg-charcoal">
-          {mediaType === 'video' ? (
-            <video src={url} className="w-full h-full object-cover" muted playsInline controls />
+        <div
+          className={`aspect-video relative overflow-hidden rounded-lg ${
+            isVideo ? 'hero-media-frame--transparent bg-[linear-gradient(45deg,#EDE7DF_25%,transparent_25%,transparent_75%,#EDE7DF_75%),linear-gradient(45deg,#EDE7DF_25%,transparent_25%,transparent_75%,#EDE7DF_75%)] bg-[length:16px_16px] bg-[position:0_0,8px_8px]' : 'bg-cream-dark'
+          }`}
+        >
+          {isVideo ? (
+            <video
+              src={url}
+              className="w-full h-full object-contain"
+              style={{ background: 'transparent' }}
+              muted
+              playsInline
+              autoPlay
+              loop
+            />
           ) : (
             <img src={url} alt="Hero media" className="w-full h-full object-cover" />
           )}
@@ -102,8 +115,8 @@ export default function HeroMediaPicker({ url, mediaType, onChange }: HeroMediaP
       ) : (
         <div className="flex flex-col items-center gap-3">
           <Upload className="w-8 h-8 text-gray-300" />
-          <p className="text-sm text-gray-500">Hero background image or video</p>
-          <p className="text-xs text-gray-300">JPG, PNG, WebP, MP4, WebM</p>
+          <p className="text-sm text-gray-500">Hero image or transparent WebM video</p>
+          <p className="text-xs text-gray-300">JPG, PNG, WebP, WebM (alpha), MP4</p>
         </div>
       )}
     </div>

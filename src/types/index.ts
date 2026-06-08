@@ -35,6 +35,7 @@ export interface Homepage {
   heroCtaText?: string | null
   heroCtaLink?: string | null
   heroMediaUrl?: string | null
+  heroMediaMp4Url?: string | null
   heroMediaType: string
   heroPosterUrl?: string | null
   heroVideoEnabled: boolean

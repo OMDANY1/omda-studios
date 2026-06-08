@@ -14,6 +14,7 @@ const homepageSchema = z.object({
   heroCtaText: z.string().nullable().optional(),
   heroCtaLink: z.string().nullable().optional(),
   heroMediaUrl: z.string().nullable().optional(),
+  heroMediaMp4Url: z.string().nullable().optional(),
   heroMediaType: z.enum(['image', 'video']).optional(),
   heroPosterUrl: z.string().nullable().optional(),
   heroVideoEnabled: z.boolean().optional(),
@@ -39,6 +40,7 @@ const defaultHomepage = {
   heroCtaText: null,
   heroCtaLink: null,
   heroMediaUrl: null,
+  heroMediaMp4Url: null,
   heroMediaType: 'image',
   heroPosterUrl: null,
   heroVideoEnabled: true,
@@ -85,12 +87,6 @@ export async function POST(req: NextRequest) {
 
     revalidatePath('/site')
     revalidatePath('/')
-
-    console.log('[Homepage] CMS save — revalidated /site:', {
-      id: homepage.id,
-      heroTitle: homepage.heroTitle,
-      updatedAt: homepage.updatedAt,
-    })
 
     return NextResponse.json({ data: homepage })
   } catch (error) {
