@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -80,6 +81,15 @@ export async function POST(req: NextRequest) {
       where: { id: HOMEPAGE_ID },
       update: { ...data, updatedAt: new Date() },
       create: { ...defaultHomepage, ...data },
+    })
+
+    revalidatePath('/site')
+    revalidatePath('/')
+
+    console.log('[Homepage] CMS save — revalidated /site:', {
+      id: homepage.id,
+      heroTitle: homepage.heroTitle,
+      updatedAt: homepage.updatedAt,
     })
 
     return NextResponse.json({ data: homepage })

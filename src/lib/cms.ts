@@ -20,17 +20,12 @@ const defaultSiteConfigData = {
 }
 
 export async function getHomepage(): Promise<Homepage> {
-  try {
-    return await prisma.homepage.upsert({
-      where: { id: HOMEPAGE_ID },
-      update: {},
-      create: { id: HOMEPAGE_ID, ...defaultHomepageData },
-    })
-  } catch {
-    const homepage = await prisma.homepage.findUnique({ where: { id: HOMEPAGE_ID } })
-    if (homepage) return homepage
-    throw new Error('Failed to load homepage')
-  }
+  const homepage = await prisma.homepage.findUnique({ where: { id: HOMEPAGE_ID } })
+  if (homepage) return homepage
+
+  return prisma.homepage.create({
+    data: { id: HOMEPAGE_ID, ...defaultHomepageData },
+  })
 }
 
 export async function getAbout(): Promise<About | null> {

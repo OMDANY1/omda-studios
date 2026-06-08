@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSiteMetadata(siteConfig)
 }
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 async function getData() {
   const [homepage, allPublished, services] = await Promise.all([
@@ -40,6 +40,32 @@ async function getData() {
   } else {
     projects = allPublished.slice(0, 6)
   }
+
+  console.log('[Homepage] Public site data:', {
+    id: homepage.id,
+    heroTitle: homepage.heroTitle,
+    heroLabel: homepage.heroLabel,
+    heroSubtitle: homepage.heroSubtitle,
+    heroDescription: homepage.heroDescription,
+    heroCtaText: homepage.heroCtaText,
+    heroCtaLink: homepage.heroCtaLink,
+    heroMediaUrl: homepage.heroMediaUrl,
+    heroMediaType: homepage.heroMediaType,
+    heroPosterUrl: homepage.heroPosterUrl,
+    heroVideoEnabled: homepage.heroVideoEnabled,
+    tickerPhrases: homepage.tickerPhrases,
+    worksTitle: homepage.worksTitle,
+    worksSubtitle: homepage.worksSubtitle,
+    servicesLabel: homepage.servicesLabel,
+    servicesTitle: homepage.servicesTitle,
+    servicesDescription: homepage.servicesDescription,
+    ctaTitle: homepage.ctaTitle,
+    ctaSubtitle: homepage.ctaSubtitle,
+    ctaButtonText: homepage.ctaButtonText,
+    ctaLink: homepage.ctaLink,
+    featuredProjectIds: homepage.featuredProjectIds,
+    updatedAt: homepage.updatedAt,
+  })
 
   return { projects, services, homepage }
 }
